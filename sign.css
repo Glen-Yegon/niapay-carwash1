@@ -46,7 +46,7 @@ html,body{height:100%;font-family:'Poppins',system-ui, -apple-system, 'Segoe UI'
   justify-content: center;
   background:
     linear-gradient(rgba(5, 35, 62, 0.55), rgba(5, 35, 62, 0.55)),
-    url('./Images/herodesk.avif') center/cover no-repeat;
+    url('./images/herodesk.avif') center/cover no-repeat;
 
   -webkit-backdrop-filter: blur(2.5px); /* ✅ Safari support */
   backdrop-filter: blur(2.5px);
