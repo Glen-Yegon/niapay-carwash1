@@ -103,7 +103,7 @@ html {
   display:flex; align-items:center; justify-content:center; text-align:center;
   padding:120px 20px 80px; /* top padding to clear fixed nav */
   position:relative;
-  background-image: url('images/herodesk.avif');
+  background-image: url('Images/herodesk.avif');
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -112,7 +112,7 @@ html {
 
 /* mobile background swap */
 @media (max-width: 768px){
-  .hero{padding:100px 18px 60px; background-image: url('images/heroimage.jpg')}
+  .hero{padding:100px 18px 60px; background-image: url('Images/heroimage.jpg')}
 }
 
 /* subtle dark overlay so text pops */
