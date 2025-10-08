@@ -1,0 +1,197 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NIAPAY — Clean Records for Car Washes</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="nav" role="banner">
+    <div class="nav-left">
+      <a href="#" aria-label="NIAPAY home">
+        <img src="images/N (4)-no-bg-full-resolution.png" alt="NIAPAY Logo" class="logo">
+      </a>
+    </div>
+
+    <div class="nav-center" aria-hidden="false">
+      <div id="car-wrap" aria-hidden="true">
+        <!-- Simple car SVG (color controlled by CSS variables) -->
+
+      </div>
+    </div>
+
+<div class="nav-right">
+  <a href="sign.html" class="user-icon" aria-label="User Account">
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke-width="1.8" 
+         stroke="#b89360" 
+         width="30" 
+         height="30">
+      <path stroke-linecap="round" stroke-linejoin="round" 
+        d="M15.75 7.5a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.5 20.25a8.25 8.25 0 0 1 15 0" />
+    </svg>
+  </a>
+</div>
+
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" role="main">
+      <div class="hero-overlay"></div>
+      <div class="hero-content" data-aos="fade-up" data-aos-delay="150">
+        <!-- Title will be split and animated by script.js -->
+        <h1 class="hero-title" id="niapay-title">NIAPAY</h1>
+        <p class="hero-sub">Digitize. Track. Trust. — Stop revenue leaks and get instant receipts.</p>
+        <div class="hero-ctas">
+          <a class="cta-btn" id="cta-start">Staff / Manager</a>
+            <a class="cta-secondary" href="customer.html" id="cta-demo">Customer</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<footer class="footer" data-aos="fade-up">
+  <div class="footer-content">
+    <!-- Logo -->
+    <div class="footer-logo">
+      <img src="images/N (4)-no-bg-full-resolution.png" alt="NIAPAY Logo" />
+    </div>
+
+    <!-- Links -->
+    <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Demo</a>
+      <a href="#">Contact</a>
+      <a href="#">Pricing</a>
+    </div>
+
+<!-- Social Media Icons -->
+<div class="footer-socials">
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-instagram"></i></a>
+  <a href="#"><i class="fab fa-twitter"></i></a>
+</div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+      <p>Subscribe to our newsletter for updates</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required />
+        
+<button type="submit" class="subscribe-btn">Subscribe</button>
+
+      </form>
+    </div>
+
+    <!-- Divider Line -->
+    <hr class="footer-line" />
+
+    <!-- Copyright -->
+    <p class="footer-copy">
+      © 2025 NIAPAY. All Rights Reserved. | Designed by
+      <span>Pixel Pulse KE</span>
+    </p>
+
+<!-- Fun Ending Element -->
+<div class="footer-end">
+  <i class="fas fa-car"></i>
+  <p>Drive your business forward with <strong>NIAPAY</strong></p>
+</div>
+
+  </div>
+</footer>
+
+
+
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="index.js"></script>
+
+ <script type="module">
+  // ==============================
+  // FIREBASE IMPORTS & CONFIG
+  // ==============================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCT1Zb6b9qBDxa2nrqNu_6cSJ6jCKfq4yY",
+    authDomain: "niapay-carwash.firebaseapp.com",
+    projectId: "niapay-carwash",
+    storageBucket: "niapay-carwash.appspot.com",
+    messagingSenderId: "994223696529",
+    appId: "1:994223696529:web:97e8e7807cc7338878ed30",
+    measurementId: "G-NKDCNQZND5"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  console.log("✅ Firebase initialized successfully");
+
+  // ==============================
+  // ROLE-BASED REDIRECTION
+  // ==============================
+  const ctaBtn = document.getElementById("cta-start");
+
+  ctaBtn.addEventListener("click", async () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            console.log("👤 Logged in user:", userData);
+
+            if (userData.role === "staff") {
+              window.location.href = "staff.html";
+            } else if (userData.role === "manager") {
+              window.location.href = "manager.html";
+            } else {
+              alert("⚠️ Unrecognized role. Please contact admin.");
+            }
+          } else {
+            alert("⚠️ User record not found. Please log in again.");
+            window.location.href = "sign.html";
+          }
+        } catch (error) {
+          console.error("❌ Error checking user role:", error);
+          alert("An error occurred. Please log in again.");
+          window.location.href = "sign.html";
+        }
+      } else {
+        // No user logged in
+        window.location.href = "sign.html";
+      }
+    });
+  });
+</script>
+
+
+
+</body>
+</html>

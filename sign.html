@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NIAPAY — Login / Signup</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+       <!-- ES module shim for import maps (for older browsers) -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+  <link rel="stylesheet" href="sign.css" />
+</head>
+<body>
+  <!-- Top bar with back button -->
+  <div class="topbar">
+    <button class="back-btn" id="backBtn" aria-label="Go back">&larr; Back</button>
+  </div>
+
+<main class="auth-page">
+
+  <!-- Left: Car Wash Visual -->
+  <section class="left-panel">
+    <div class="overlay">
+      <div class="left-content">
+        <h1>Keep it Clean. Keep it Classy.</h1>
+        <p>Streamline your car wash management with <strong>NIAPAY</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right: Auth card -->
+  <section class="right-panel">
+    <div class="auth-card" data-state="login" id="authCard">
+      
+      <!-- Logo -->
+      <div class="auth-logo">
+        <img src="images/N (3)-no-bg-full-resolution.png" alt="NIAPAY logo" />
+      </div>
+
+      <!-- form toggle -->
+      <div class="form-toggle">
+        <button class="toggle-btn active" data-target="login">Log in</button>
+        <button class="toggle-btn" data-target="signup">Sign up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="auth-form" autocomplete="on">
+        <label class="field">
+          <span>Role</span>
+          <select name="role" id="loginRole" required>
+            <option value="staff">Staff</option>
+            <option value="manager">Manager</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Full name</span>
+          <input type="text" name="name" id="loginName" placeholder="Your full name" required />
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" id="loginEmail" placeholder="you@company.com" required />
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <div class="pw-row">
+            <input type="password" name="password" id="loginPassword" placeholder="••••••••" required />
+            <button type="button" class="pw-toggle" data-target="loginPassword" aria-label="Show password">Show</button>
+          </div>
+        </label>
+
+        <button class="btn primary" id="loginBtn" type="submit">Log in</button>
+        <p class="form-note">Forgotten password? <a href="#" id="forgotLink">Reset it</a></p>
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="signupForm" class="auth-form hidden" autocomplete="on">
+        <label class="field">
+          <span>Role</span>
+          <select name="role" id="signupRole" required>
+            <option value="staff">Staff</option>
+            <option value="manager">Manager</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Full name</span>
+          <input type="text" name="name" id="signupName" placeholder="Your full name" required />
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" id="signupEmail" placeholder="you@company.com" required />
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <div class="pw-row">
+            <input type="password" name="password" id="signupPassword" placeholder="Choose a secure password" required />
+            <button type="button" class="pw-toggle" data-target="signupPassword" aria-label="Show password">Show</button>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Confirm password</span>
+          <div class="pw-row">
+            <input type="password" name="confirm" id="signupConfirm" placeholder="Repeat your password" required />
+            <button type="button" class="pw-toggle" data-target="signupConfirm" aria-label="Show password">Show</button>
+          </div>
+        </label>
+
+        <button class="btn primary" id="signupBtn" type="submit">Create account</button>
+        <p class="form-note">By creating an account you agree to our <a href="#">Terms</a> & <a href="#">Privacy</a>.</p>
+      </form>
+
+      <!-- footer text inside card -->
+      <div class="card-footer">
+        <p>© 2025 NIAPAY — For <strong>Car Wash</strong> pilots</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+  <!-- Scripts -->
+  <script src="sign.js"></script>
+  
+  <script type="module" src="firebase-config.js"></script>
+
+
+</body>
+</html>

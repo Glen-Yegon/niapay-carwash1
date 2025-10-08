@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NIAPAY — Manager Dashboard</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="manager.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="images/N (4)-no-bg-full-resolution.png" alt="NIAPAY" class="logo" />
+        <h1>NIAPAY Manager</h1>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-area="overview">Overview</button>
+        <button class="nav-btn" data-area="jobs">Job Management</button>
+        <button class="nav-btn" data-area="staff">Staff Performance</button>
+        <button class="nav-btn" data-area="reports">Reports</button>
+        <button class="nav-btn" data-area="admin">Admin Controls</button>
+        <button class="nav-btn" data-area="activity">Activity Log</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <small>© 2025 NIAPAY</small>
+      </div>
+    </aside>
+
+    <header class="dashboard-header">
+  <h2 id="welcome-message">Welcome, Manager 👋</h2>
+</header>
+
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left">
+          <h2 id="pageTitle">Overview</h2>
+        </div>
+        <div class="right">
+          <div id="managerName" class="manager-name">Manager</div>
+        </div>
+      </header>
+
+      <!-- 🔹 FILTER SECTION -->
+<section id="filterSection" class="filter-section">
+  <h2>Filter Jobs</h2>
+  <div class="filters">
+    <select id="dateFilter">
+      <option value="all">All Time</option>
+      <option value="today">Today</option>
+      <option value="week">Past Week</option>
+      <option value="month">Past Month</option>
+      <option value="3months">Past 3 Months</option>
+      <option value="year">Past Year</option>
+    </select>
+    <button id="applyFilterBtn" class="filter-btn">Apply Filter</button>
+  </div>
+</section>
+
+
+      <section class="content">
+        <!-- OVERVIEW -->
+        <section id="overview" class="panel active">
+          <div class="cards-row">
+            <div class="card stat" id="statPending">
+              <div class="label">Pending</div>
+              <div class="value" id="pendingCount">—</div>
+            </div>
+            <div class="card stat" id="statInProgress">
+              <div class="label">In Progress</div>
+              <div class="value" id="inProgressCount">—</div>
+            </div>
+            <div class="card stat" id="statCompleted">
+              <div class="label">Completed</div>
+              <div class="value" id="completedCount">—</div>
+            </div>
+            <div class="card stat" id="statRevenue">
+              <div class="label">Total Revenue</div>
+              <div class="value" id="revenueSum">Kshs 0</div>
+            </div>
+            <div class="card stat" id="statStaff">
+              <div class="label">Active Staff</div>
+              <div class="value" id="activeStaff">—</div>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <h3>Quick Jobs Snapshot</h3>
+            <div id="quickJobsList" class="list"></div>
+          </div>
+        </section>
+
+        <!-- JOB MANAGEMENT -->
+        <section id="jobs" class="panel">
+          <div class="panel-top">
+            <h3>Active Jobs</h3>
+            <div class="filters">
+              <select id="filterStatus">
+                <option value="all">All statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+              <input id="searchInput" placeholder="Search by plate or UUID" />
+              <button id="refreshJobs" class="btn small">Refresh</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table id="jobsTable" class="jobs-table">
+              <thead>
+                <tr>
+                  <th>UUID</th>
+                  <th>Plate</th>
+                  <th>Model</th>
+                  <th>Assigned</th>
+                  <th>Status</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- STAFF PERFORMANCE -->
+        <section id="staff" class="panel">
+          <h3>Staff Performance</h3>
+          <div id="staffGrid" class="staff-grid"></div>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="reports" class="panel">
+          <h3>Reports</h3>
+          <div class="report-block">
+            <h4>Summary (no charts)</h4>
+            <ul id="reportsList" class="reports-list"></ul>
+          </div>
+        </section>
+
+        <!-- ADMIN CONTROLS -->
+        <section id="admin" class="panel">
+          <h3>Admin Controls</h3>
+
+          <div class="admin-block">
+            <h4>Manage Staff (from users collection)</h4>
+            <div id="usersList" class="users-list"></div>
+            <p class="muted">Removing a staff will delete their Firestore record and request Auth deletion (server function required).</p>
+          </div>
+
+          <div class="admin-block">
+            <h4>Pricing</h4>
+            <p class="muted">Pricing management will be added later.</p>
+          </div>
+        </section>
+
+        <!-- ACTIVITY LOG -->
+        <section id="activity" class="panel">
+          <h3>Activity Log</h3>
+          <div id="activityLog" class="activity-log"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <!-- 🔹 LOADER -->
+<div id="loader" class="loader hidden">
+  <div class="spinner"></div>
+</div>
+
+
+  <!-- Toasts -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <!-- Firebase + App logic -->
+  <script type="module" src="manager-firebase.js"></script>
+  <script type="module" src="manager.js"></script>
+</body>
+</html>

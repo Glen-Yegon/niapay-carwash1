@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Dashboard | NiaPay Carwash</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="staff.css">
+</head>
+<body>
+  <header class="header">
+    <h1 class="staff-name" id="staffName">Loading...</h1>
+    <p class="subtitle">Pending Jobs</p>
+  </header>
+
+  <!-- Loader -->
+  <div id="loader" class="loader">
+    <div class="spinner"></div>
+    <p>Loading jobs...</p>
+  </div>
+
+  <!-- Jobs Container -->
+  <main class="jobs-container" id="jobsContainer"></main>
+
+  <!-- Scripts -->
+  <script type="module" src="staff.js"></script>
+</body>
+</html>
