@@ -97,6 +97,14 @@
             <h3>Quick Jobs Snapshot</h3>
             <div id="quickJobsList" class="list"></div>
           </div>
+
+          <!-- OVERVIEW -->
+<div class="export-options">
+  <button class="export-btn" data-export-target="overviewPanel">
+    <i class="fas fa-file-export"></i> Export Overview
+  </button>
+</div>
+
         </section>
 
         <!-- JOB MANAGEMENT -->
@@ -130,6 +138,13 @@
               </thead>
               <tbody></tbody>
             </table>
+
+<!-- JOB MANAGEMENT -->
+<div class="export-options">
+  <button class="export-btn" data-export-target="jobsTable">
+    <i class="fas fa-file-export"></i> Export Jobs
+  </button>
+</div>
           </div>
         </section>
 
@@ -137,6 +152,13 @@
         <section id="staff" class="panel">
           <h3>Staff Performance</h3>
           <div id="staffGrid" class="staff-grid"></div>
+
+<!-- STAFF PERFORMANCE -->
+<div class="export-options">
+  <button class="export-btn" data-export-target="staffGrid">
+    <i class="fas fa-file-export"></i> Export Staff
+  </button>
+</div>
         </section>
 
         <!-- REPORTS -->
@@ -146,6 +168,30 @@
             <h4>Summary (no charts)</h4>
             <ul id="reportsList" class="reports-list"></ul>
           </div>
+
+<!-- Cash Reports Section -->
+<div class="report-block" id="cashReportsBlock">
+  <h4>Cash & Mpesa Reports</h4>
+  <div class="filters">
+    <select id="cashReportDateFilter">
+      <option value="all">All Time</option>
+      <option value="today">Today</option>
+      <option value="week">Past Week</option>
+      <option value="month">Past Month</option>
+      <option value="3months">Past 3 Months</option>
+      <option value="year">Past Year</option>
+    </select>
+    <button id="generateCashReport" class="filter-btn">
+      <i class="fas fa-file-alt"></i> Generate Report
+    </button>
+    <button id="exportCashReport" class="export-btn">
+      <i class="fas fa-file-export"></i> Export Report
+    </button>
+  </div>
+  <ul id="cashReportList" class="reports-list"></ul>
+</div>
+
+
         </section>
 
         <!-- ADMIN CONTROLS -->
@@ -168,6 +214,15 @@
         <section id="activity" class="panel">
           <h3>Activity Log</h3>
           <div id="activityLog" class="activity-log"></div>
+
+
+<!-- ACTIVITY LOG -->
+<div class="export-options">
+  <button class="export-btn" data-export-target="activityLog">
+    <i class="fas fa-file-export"></i> Export Activity
+  </button>
+</div>
+
         </section>
       </section>
     </main>
@@ -239,5 +294,12 @@
   <!-- Firebase + App logic -->
   <script type="module" src="manager-firebase.min.js"></script>
   <script type="module" src="manager.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.29.0/docxtemplater.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PDFMake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PDFMake/0.2.7/vfs_fonts.js"></script>
+
+
 </body>
 </html>

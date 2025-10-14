@@ -260,6 +260,89 @@ async function loadReports() {
     showToast("Failed to load reports");
   }
 }
+
+/* --- Cash Reports --- */
+const cashReportList = document.getElementById("cashReportList");
+const cashReportDateFilter = document.getElementById("cashReportDateFilter");
+const generateCashReportBtn = document.getElementById("generateCashReport");
+const exportCashReportBtn = document.getElementById("exportCashReport");
+
+generateCashReportBtn.addEventListener("click", async () => {
+  await loadCashReport(cashReportDateFilter.value);
+});
+
+async function loadCashReport(filterValue) {
+  loader.classList.remove("hidden");
+
+  try {
+    const jobs = await fb.getJobs({ status: "all", search: "" });
+    const now = new Date();
+    let startDate = null;
+
+    switch (filterValue) {
+      case "today": startDate = new Date(now.setHours(0, 0, 0, 0)); break;
+      case "week": startDate = new Date(now.setDate(now.getDate() - 7)); break;
+      case "month": startDate = new Date(now.setMonth(now.getMonth() - 1)); break;
+      case "3months": startDate = new Date(now.setMonth(now.getMonth() - 3)); break;
+      case "year": startDate = new Date(now.setFullYear(now.getFullYear() - 1)); break;
+      default: startDate = null; break;
+    }
+
+    // Filter jobs by date
+    const filteredJobs = startDate ? jobs.filter(j => new Date(j.createdAt) >= startDate) : jobs;
+
+    // Calculate totals
+    const paymentTotals = {};
+    filteredJobs.forEach(j => {
+      const method = j.payment || "Unknown";
+      paymentTotals[method] = (paymentTotals[method] || 0) + Number(j.total || 0);
+    });
+
+    const totalRevenue = filteredJobs.reduce((sum, j) => sum + Number(j.total || 0), 0);
+
+    // Render list
+    cashReportList.innerHTML = "";
+    Object.entries(paymentTotals).forEach(([method, amount]) => {
+      const li = document.createElement("li");
+      li.textContent = `${method}: Ksh ${amount.toLocaleString()}`;
+      cashReportList.appendChild(li);
+    });
+
+    const liTotal = document.createElement("li");
+    liTotal.textContent = `Total Revenue: Ksh ${totalRevenue.toLocaleString()} | Total Jobs: ${filteredJobs.length}`;
+    cashReportList.appendChild(liTotal);
+
+  } catch (err) {
+    console.error("Cash report error", err);
+    showToast("Failed to load cash report");
+  } finally {
+    loader.classList.add("hidden");
+  }
+}
+
+/* --- Export Cash Report as CSV --- */
+exportCashReportBtn.addEventListener("click", () => {
+  if (!cashReportList.children.length) {
+    showToast("Generate a report first");
+    return;
+  }
+
+  const rows = Array.from(cashReportList.children).map(li => li.textContent);
+  const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `Cash_Report_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  showToast("Report exported!");
+});
+
+
+
 function computePopularServices(jobs) {
   const map = {};
   jobs.forEach(j => {
@@ -432,3 +515,72 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+
+
+/* --- Universal Export Functionality --- */
+document.querySelectorAll(".export-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const targetId = btn.dataset.exportTarget;
+    const container = document.getElementById(targetId);
+    if (!container) return showToast("No data found to export");
+
+    // Ask user format
+    const format = prompt("Choose export format: csv / doc / pdf", "csv");
+    if (!format) return;
+
+    const items = Array.from(container.children).map(li => li.textContent || li.innerText);
+
+    if (!items.length) return showToast("No data to export");
+
+    const dateStamp = new Date().toISOString().slice(0, 10);
+    const filename = `${targetId}_${dateStamp}`;
+
+    switch (format.toLowerCase()) {
+      case "csv":
+        exportToCSV(items, filename);
+        break;
+      case "doc":
+        exportToDOC(items, filename);
+        break;
+      case "pdf":
+        exportToPDF(items, filename);
+        break;
+      default:
+        showToast("Unknown format");
+        break;
+    }
+  });
+});
+
+/* --- CSV --- */
+function exportToCSV(items, filename) {
+  const csvContent = "data:text/csv;charset=utf-8," + items.join("\n");
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + ".csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  showToast("CSV exported!");
+}
+
+/* --- DOC --- */
+function exportToDOC(items, filename) {
+  let content = items.map(i => i + "<br>").join("");
+  const blob = new Blob(["<html><body>" + content + "</body></html>"], { type: "application/msword" });
+  saveAs(blob, filename + ".doc");
+  showToast("DOC exported!");
+}
+
+/* --- PDF --- */
+function exportToPDF(items, filename) {
+  const docDefinition = {
+    content: items.map(i => ({ text: i, margin: [0, 2] })),
+    defaultStyle: { fontSize: 12 }
+  };
+  pdfMake.createPdf(docDefinition).download(filename + ".pdf");
+  showToast("PDF exported!");
+}

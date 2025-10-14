@@ -420,3 +420,49 @@ a:focus, button:focus{outline:3px solid rgba(184,147,96,0.25); outline-offset:3p
   background-color: transparent;
   transform: scale(1.05);
 }
+
+
+/* Export Button Styles */
+.export-options {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.export-btn {
+  background: #b89360; /* NIAPAY gold color */
+  color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-btn i {
+  font-size: 1rem;
+}
+
+.export-btn:hover {
+  background: #a57a48; /* Darker gold on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.export-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Optional: make buttons responsive */
+@media (max-width: 768px) {
+  .export-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
